@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0b6e98f7408404aa973b90775c1c1d, type: 3}
   m_Name: 2 Question
   m_EditorClassIdentifier: 
-  question: Enter new question text here
+  question: Which method allows read-only access to private variables?
+  answers:
+  - A) Setter method
+  - B) Constructor method
+  - C) Getter method
+  - D) Destructor method
+  correctAnswerIndex: 2

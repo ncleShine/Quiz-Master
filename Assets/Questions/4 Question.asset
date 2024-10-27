@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0b6e98f7408404aa973b90775c1c1d, type: 3}
   m_Name: 4 Question
   m_EditorClassIdentifier: 
-  question: Enter new question text here
+  question: When should you declare a variable as public?
+  answers:
+  - A) When it needs to be accessed from other scripts or classes
+  - B) To limit its use within the same method.
+  - C) To prevent other scripts from using it.
+  - D) To delete the variable automatically.
+  correctAnswerIndex: 0

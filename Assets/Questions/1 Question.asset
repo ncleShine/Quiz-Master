@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0b6e98f7408404aa973b90775c1c1d, type: 3}
   m_Name: 1 Question
   m_EditorClassIdentifier: 
-  question: What is the correct syntax for creating a new integer variable with inital
-    value of 12?
+  question: What is the main difference between arrays and lists in C#?
   answers:
-  - int num = 12
-  - Int num = "12;
-  - Int num = 12;
-  - int num = "12";
-  correctAnswerIndex: 8
+  - A)Arrays are dynamic, while lists are fixed in size.
+  - B)Arrays store only integers, while lists store strings.
+  - C)Arrays are fixed in size, while lists can grow or shrink dynamically.
+  - D)Lists are faster than arrays for all operations
+  correctAnswerIndex: 2

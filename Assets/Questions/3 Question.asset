@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0b6e98f7408404aa973b90775c1c1d, type: 3}
   m_Name: 3 Question
   m_EditorClassIdentifier: 
-  question: Enter new question text here
+  question: What is the correct way to remove the first element from a list?
+  answers:
+  - A) list.Clear();
+  - B) list.RemoveAt(0);
+  - C) list.Remove(0);
+  - D) list.Pop(0);
+  correctAnswerIndex: 1

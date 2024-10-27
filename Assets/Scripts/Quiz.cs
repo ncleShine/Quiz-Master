@@ -6,12 +6,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Debug = System.Diagnostics.Debug;
+using Random = UnityEngine.Random;
 
 public class Quiz : MonoBehaviour
 {
     [Header("Questions")]
     [SerializeField] TextMeshProUGUI questionText;
-    [SerializeField] QuestionSO question;
+    [SerializeField] List<QuestionSO> questions = new List<QuestionSO>();
+    QuestionSO currentQuestion;
     
     [Header("Answer")]
     [SerializeField] GameObject[] answerButtons;
@@ -26,26 +28,35 @@ public class Quiz : MonoBehaviour
     [SerializeField] Image timrImage;
     Timer timer;
 
+    [Header("Scoring")] 
+    [SerializeField] TextMeshProUGUI scoreText;
+    ScoreKeeper scoreKeeper;
+
+    [Header("ProgressBar")] 
+    [SerializeField] Slider progressBar;
+    
     void Start()
     {
         timer = FindObjectOfType<Timer>();
         GetNextQuestion();
-       //DisplayQuestion();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        progressBar.maxValue = questions.Count;
+        progressBar.value = 0;
     }
 
     void Update()
     {
-        timrImage.fillAmount = timer.fillFraction;
+        //timerrImage.fillAmount = timer.fillFraction;
         if(timer.loadNextQuestion)
         {
-            hasAnsweredEarly = false;
-            GetNextQuestion();
-            timer.loadNextQuestion = false;
+           //hasAnsweredEarly = false;
+           // GetNextQuestion();
+           // timer.loadNextQuestion = false;
         }
         else if(!hasAnsweredEarly && !timer.isAnsweringQuestion)
         {
-            DisplayAnswer(-1);
-            SetButtonState(false);
+            //DisplayAnswer(0);
+           // SetButtonState(false);
         }
     }
     
@@ -54,22 +65,29 @@ public class Quiz : MonoBehaviour
         DisplayAnswer(index);
         SetButtonState(false);
         timer.CancelTimer();
+        scoreText.text = "Score" + scoreKeeper.CalculateScore() + "%";
+
+        if(progressBar.value == progressBar.maxValue)
+        {
+             
+        }
     }
 
     void DisplayAnswer(int index)
     {
         Image buttonImage;
         
-        if (index == question.GetCorrectAnswerIndex())
+        if (index == currentQuestion.GetCorrectAnswerIndex())
         {
             questionText.text = "Correct!";
             buttonImage = answerButtons[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+            scoreKeeper. IncrementCorrectAnswers();
         }
         else
         {
-            correctAnswerIndex = question.GetCorrectAnswerIndex();
-            string correctAnswer = question.GetAnswer(correctAnswerIndex);
+            correctAnswerIndex = currentQuestion.GetCorrectAnswerIndex();
+            string correctAnswer = currentQuestion.GetAnswer(correctAnswerIndex);
             questionText.text = "Sorry, the correct answer was;\n" + correctAnswer;
             buttonImage = answerButtons[correctAnswerIndex].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
@@ -79,19 +97,37 @@ public class Quiz : MonoBehaviour
 
     void GetNextQuestion()
     {
+        
         SetButtonState(true);
         SetDefaultButtonSprites();
+        GetRandomQuestion();
         DisplayQuestion();
+        progressBar.value++;
+        scoreKeeper.IncrementsQuestionsSeen();
+
     }
 
-    void DisplayQuestion()
+    void GetRandomQuestion()
     {
-        questionText.text = question.GetQuestion();
+        int index = Random.Range(0, questions.Count);
+        currentQuestion = questions[index];
+
+        if (questions.Contains(currentQuestion))
+        {
+            questions.Remove(currentQuestion);
+        }
+        
+    }
+
+
+    public void DisplayQuestion()
+    {
+        questionText.text = currentQuestion.GetQuestion();
 
         for (int i = 0; i < answerButtons.Length; i++)
         {
             TextMeshProUGUI buttonText = answerButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = question.GetAnswer(i);
+            buttonText.text = currentQuestion.GetAnswer(i);
         }
     }
 
